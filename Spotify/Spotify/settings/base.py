@@ -178,10 +178,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
-    
-    
-
-    "kn_defaults.logging.middlewares.KnLogging",
 ]
 
 ROOT_URLCONF = "Spotify.urls"
@@ -192,9 +188,6 @@ WSGI_APPLICATION = "Spotify.wsgi.application"
 INSTALLED_APPS = [
     "user.apps.UsersConfig",
 
-    
-    
-
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -203,16 +196,8 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.messages",
-    "kn_defaults.logging",
-
     "rest_framework",
     "rest_framework.authtoken",
-	# "djvue",
-
-    
-
-    
-
     "compressor",
     
 
@@ -244,12 +229,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # more details on how to customize your logging configuration.
 KN_LOG_FILE_PATH = join(DJANGO_ROOT, "logs/log.log")
 
-from kn_defaults.logging.defaults import get_base_logging
-LOGGING = get_base_logging(logstash=False)
-
-KN_LOGGING_URL_PATTERNS = []
-
-LOCALE_PATHS = (normpath(join(PROJECT_ROOT, "locale")),)
+# from kn_defaults.logging.defaults import get_base_logging
+# LOGGING = get_base_logging(logstash=False)
+#
+# KN_LOGGING_URL_PATTERNS = []
+#
+# LOCALE_PATHS = (normpath(join(PROJECT_ROOT, "locale")),)
 
 # Dummy gettext function
 gettext = lambda s: s
