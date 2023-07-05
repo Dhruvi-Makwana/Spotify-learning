@@ -56,12 +56,12 @@ ADMIN_URL = env.str("DJANGO_ADMIN_URL", "admin")
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "spotify_db",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "ENGINE": env("POSTGRES_ENGINE"),
+        "NAME": env("DB_NAME"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST"),
+        "PORT": env("POSTGRES_PORT"),
     }
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
