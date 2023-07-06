@@ -1,14 +1,38 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
-from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
+from django.db import models
+from user.choice import SONG_TYPES, ROLES
 
 
 class User(AbstractUser):
+    profile_photo = models.ImageField(upload_to="profile_photo/", blank=True, null=True)
+    roles = models.CharField(choices=ROLES, max_length=20, default="LISTENER")
 
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
-    name = CharField(_("Name of User"), blank=True, max_length=255)
+    def __str__(self):
+        return self.username
 
-    def get_absolute_url(self):
-        return reverse("user:detail", kwargs={"username": self.username})
+
+class Song(models.Model):
+    name = models.CharField(max_length=200, help_text="enter a song name")
+    singer = models.ForeignKey(
+        User, on_delete=models.CASCADE, max_length=200, related_name="sung_songs"
+    )
+    written_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, max_length=200, related_name="written_songs"
+    )
+    release_date = models.DateField(blank=True, null=True)
+    cover_photo = models.ImageField(upload_to="cover_photo/")
+    types = models.CharField(choices=SONG_TYPES, max_length=20)
+
+    def __str__(self):
+        return f" {self.name}"
+
+
+class Playlist(models.Model):
+    name = models.CharField(max_length=200)
+    song = models.ManyToManyField(Song, related_name="playlist_song")
+    owned_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="playlist"
+    )
+
+    def __str__(self):
+        return f" {self.name}"

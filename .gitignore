@@ -35,5 +35,5 @@ CACHE
 CACHE/*
 togit.sh
 htmlcov/
-.env
+Spotify/.env
 .vscode/*
