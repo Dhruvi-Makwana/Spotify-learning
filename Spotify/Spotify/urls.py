@@ -19,7 +19,7 @@ urlpatterns += i18n_patterns(
     path("bad/", bad),
     path("", include("djvue.urls")),
     path(f"{settings.ADMIN_URL}/", admin.site.urls),
-    path("user/", include("user.urls", namespace="user")),
+    # path("user/", include("user.urls", namespace="user")),
 )
 
 if settings.DEBUG:
@@ -27,6 +27,7 @@ if settings.DEBUG:
         # Testing 404 and 500 error pages
         path("404/", TemplateView.as_view(template_name="404.html"), name="404"),
         path("500/", TemplateView.as_view(template_name="500.html"), name="500"),
+        path("", include("user.urls")),
     ]
 
     from django.conf.urls.static import static
