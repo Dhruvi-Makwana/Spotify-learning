@@ -5,5 +5,3 @@ SONG_TYPES = (
     ("FOLK", "FOLK"),
     ("JAZZ", "JAZZ"),
 )
-
-ROLES = (("SINGER", "SINGER"), ("WRITER", "WRITER"), ("LISTENER", "LISTENER"))

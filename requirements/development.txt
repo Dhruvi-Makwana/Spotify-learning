@@ -12,3 +12,4 @@ black==22.10.0
 pylint-django==2.5.3
 pre-commit==2.20.0
 factory-boy==3.2.1
+djangorestframework-simplejwt==5.2.2

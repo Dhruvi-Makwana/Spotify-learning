@@ -1,14 +1,18 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from user.choice import SONG_TYPES, ROLES
+from user.choice import SONG_TYPES
+from django.contrib.auth.hashers import make_password
 
 
 class User(AbstractUser):
     profile_photo = models.ImageField(upload_to="profile_photo/", blank=True, null=True)
-    roles = models.CharField(choices=ROLES, max_length=20, default="LISTENER")
 
     def __str__(self):
         return self.username
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super(User, self).save(*args, **kwargs)
 
 
 class Song(models.Model):
