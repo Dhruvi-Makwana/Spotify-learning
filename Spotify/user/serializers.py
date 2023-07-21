@@ -1,8 +1,9 @@
-from .models import User
+from .models import User, Song, Playlist
 from rest_framework import serializers
 from .constants import PASSWORD_ERROR_MESSAGE
-from user.utils import assign_role_to_user
 from django.contrib.auth.models import Group
+from rest_framework.serializers import ValidationError
+from user.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -53,4 +54,46 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "groups",
             "profile_photo",
             "full_name",
+        )
+
+
+class CreateSongSerializer(serializers.ModelSerializer):
+    def validate_play_song(self, value):
+        if value:
+            if not value.name.endswith(".mp3"):
+                raise ValidationError("Only .mp3 files are allowed.")
+        return value
+
+    class Meta:
+        model = Song
+        fields = "__all__"
+
+
+class SongSerializer(serializers.ModelSerializer):
+    singer = UserSerializer(read_only=True)
+    written_by = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Song
+        fields = "__all__"
+
+
+class PlaylistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = "__all__"
+
+
+class GetPlaylistSerializer(serializers.ModelSerializer):
+    song = CreateSongSerializer(many=True)
+    owned_by = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Playlist
+        fields = (
+            "id",
+            "name",
+            "owned_by",
+            "song",
+            "privacy",
         )
