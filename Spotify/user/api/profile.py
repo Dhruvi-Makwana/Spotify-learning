@@ -1,16 +1,11 @@
-from rest_framework.views import APIView
+from rest_framework.generics import RetrieveAPIView
 from user.serializers import UserProfileSerializer
-from user.models import User
-from django.http import JsonResponse
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 
-class ProfileAPI(APIView):
+class ProfileAPI(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = UserProfileSerializer
 
-    def get(self, request, *args, **kwargs):
-        get_user_id = kwargs.get("pk")
-        user_data = User.objects.filter(id=get_user_id)
-        serializer = UserProfileSerializer(user_data, many=True)
-        return JsonResponse({"data": serializer.data}, status=status.HTTP_200_OK)
+    def get_object(self):
+        return self.request.user

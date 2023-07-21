@@ -57,21 +57,16 @@ ADMIN_URL = env.str("DJANGO_ADMIN_URL", "admin")
 
 DATABASES = {
     "default": {
-        "ENGINE": env("POSTGRES_ENGINE"),
-        "NAME": env("DB_NAME"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
-        "PORT": env("POSTGRES_PORT"),
+        "ENGINE": env.str("POSTGRES_ENGINE"),
+        "NAME": env.str("DB_NAME"),
+        "USER": env.str("POSTGRES_USER"),
+        "PASSWORD": env.str("POSTGRES_PASSWORD"),
+        "HOST": env.str("POSTGRES_HOST"),
+        "PORT": env.int("POSTGRES_PORT"),
     }
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
-DATABASES["default"]["OPTIONS"] = {
-    "init_command": "SET default_storage_engine=InnoDB",
-    "charset": "utf8mb4",
-    "use_unicode": True,
-}
 
 EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
@@ -187,7 +182,6 @@ ROOT_URLCONF = "Spotify.urls"
 WSGI_APPLICATION = "Spotify.wsgi.application"
 
 INSTALLED_APPS = [
-    "user.apps.UsersConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -199,6 +193,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "compressor",
+    "django_extensions",
+    "user.apps.UsersConfig",
 ]
 
 AUTH_USER_MODEL = "user.User"
